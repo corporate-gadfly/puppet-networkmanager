@@ -17,7 +17,7 @@ describe :nm_version, type: :fact do
   end
 
   it 'returns NetworkManager version' do
-    allow(Facter::Util::Resolution).to receive(:exec)
+    allow(Facter::Core::Execution).to receive(:execute)
       .with('NetworkManager --version')
       .and_return("1.51.6-1.el9\n")
 
@@ -25,14 +25,14 @@ describe :nm_version, type: :fact do
   end
 
   it 'returns nil when NetworkManager fails' do
-    allow(Facter::Util::Resolution).to receive(:exec)
+    allow(Facter::Core::Execution).to receive(:execute)
       .and_raise(Puppet::ExecutionFailure, 'NetworkManager failed')
 
     expect(fact.value).to be_nil
   end
 
   it 'strips surrounding whitespace from version output' do
-    allow(Facter::Util::Resolution).to receive(:exec)
+    allow(Facter::Core::Execution).to receive(:execute)
       .with('NetworkManager --version')
       .and_return(" 1.51.6-1.el9 \n")
 
